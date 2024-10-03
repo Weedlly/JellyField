@@ -16,8 +16,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        MaxRow: 3
-        MaxCol: 3
+        MaxRow: 2
+        MaxCol: 2
         BlockArrConfig:
         - Blocks:
           - IsEmpty: 0

@@ -1,3 +1,4 @@
+using GamePlay.GenTileZone;
 using GamePlay.LevelDesign;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace GamePlay.TileData
     {
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         [SerializeField] private List<SingleBlock> _defaultSingleBlocks;
-        [SerializeField] private List<SingleBlock> _activeBlock;
+        private List<SingleBlock> _activeBlocks;
         [SerializeField] private int _curLevel;
         [SerializeField] private LevelDesignDataConfig _levelDesignConfig;
 
@@ -18,7 +19,7 @@ namespace GamePlay.TileData
         private void Start()
         {
             _curLevelDesign = _levelDesignConfig.GeConfigByKey(_curLevel);
-
+            _activeBlocks = new List<SingleBlock>();
             OnGenBoard();
         }
         private void OnGenBoard()
@@ -28,6 +29,7 @@ namespace GamePlay.TileData
 
             RenderBlocksByColAndRow();
             RenderTileData();
+            BoardManager.Instance.ActiveBlocks = _activeBlocks;
         }
         private void RenderBlocksByColAndRow()
         {
@@ -53,11 +55,13 @@ namespace GamePlay.TileData
                         _defaultSingleBlocks[i].SetShowing(false);
                         continue;
                     }
+                    _activeBlocks.Add(_defaultSingleBlocks[i]);
                     _defaultSingleBlocks[i].SetShowing(true);
                     _defaultSingleBlocks[i].SetBlockData(block.TopLeft, block.TopRight, block.BottomLeft, block.BottomRight);
                 }
                 else
                 {
+                    _activeBlocks.Add(_defaultSingleBlocks[i]);
                     _defaultSingleBlocks[i].ResetBlock();
                 }
             }
