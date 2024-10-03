@@ -1,12 +1,17 @@
+using GamePlay.Board;
+using GamePlay.TileData;
+using System;
 using UnityEngine;
 
 namespace GamePlay.GenTileZone
 {
-    public class DragBlockManager : MonoBehaviour
+    public class DragBlock : MonoBehaviour
     {
         [SerializeField] private Transform _originTf;
         [SerializeField] private GameObject _goBlock;
-
+        public SingleBlock SingleBlock;
+        public Action OnPutOnBoard;
+        
         public Vector3 CurPointerPos;
         
         private bool _isOnDrag;
@@ -34,9 +39,18 @@ namespace GamePlay.GenTileZone
             if (_isOnDrag)
             {
                 Debug.Log("OnMouseUp");
+                if (BoardManager.Instance.IsPutOnBoard())
+                {
+                    BoardManager.Instance.PutOnBoard(SingleBlock);
+                    SingleBlock.ResetBlock();
+                    OnPutOnBoard?.Invoke();
+                }
                 transform.position = new Vector3(_originTf.position.x, _originTf.position.y, transform.position.z);
                 _goBlock.transform.position = _originTf.position;
-                CurPointerPos = _goBlock.transform.position;;
+                CurPointerPos = _goBlock.transform.position;
+               
+
+
                 _isOnDrag = false;
                 BoardManager.Instance.ResetHover();
             }

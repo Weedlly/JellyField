@@ -5,7 +5,7 @@ using System.Linq;
 namespace Common.Scripts.Utilities
 {
     public static class RouletteWheelSelection<T>{
-        public static T Selection(List<T> items, Func<T, double> getWeight )
+        public static T Selection(List<T> items, Func<T, double> getWeight)
         {
             double totalWeight = items.Sum(getWeight);
 

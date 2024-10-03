@@ -3,18 +3,40 @@ using GamePlay.TileData;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.GenTileZone
+namespace GamePlay.Board
 {
     public class BoardManager : SingletonBase<BoardManager>
     {
         public List<SingleBlock> ActiveBlocks;
         [SerializeField] private float _minShowHover;
-        private SingleBlock _preNearestBlock;
+        public SingleBlock PreNearestBlock;
 
         public void ResetHover()
         {
-            if (_preNearestBlock)
-                _preNearestBlock.SetHover(false);
+            if (PreNearestBlock)
+            {
+                PreNearestBlock.SetHover(false);
+                PreNearestBlock = null;
+            }
+        }
+        public bool IsPutOnBoard()
+        {
+            if (PreNearestBlock)
+            {
+                return true;
+            }
+            return false;
+        }
+        public void PutOnBoard(SingleBlock singleBlock)
+        {
+            PreNearestBlock.SetHover(false);
+            PreNearestBlock.SetShowing(true);
+            // replace tile data
+            PreNearestBlock.SetBlockData(
+                singleBlock.LeftTopSingleTile.CurTileVal,
+                singleBlock.RightTopSingleTile.CurTileVal,
+                singleBlock.LeftBottmSingleTile.CurTileVal,
+                singleBlock.RightBottomSingleTile.CurTileVal);
         }
         
         public void CheckHover(Vector2 CurPointerPos)
@@ -37,14 +59,14 @@ namespace GamePlay.GenTileZone
             }
             if (!nearestBlock)
             {
-                if (_preNearestBlock)
-                    _preNearestBlock.SetHover(false);
+                if (PreNearestBlock)
+                    PreNearestBlock.SetHover(false);
             }
-            else if (nearestBlock != _preNearestBlock)
+            else if (nearestBlock != PreNearestBlock)
             {
-                if (_preNearestBlock)
-                    _preNearestBlock.SetHover(false);
-                _preNearestBlock = nearestBlock;
+                if (PreNearestBlock)
+                    PreNearestBlock.SetHover(false);
+                PreNearestBlock = nearestBlock;
                 nearestBlock.SetHover(true);
             }
         }

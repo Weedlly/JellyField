@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GamePlay.GenTileZone
+namespace GamePlay.Board
 {
     public class PutOnBoard : MonoBehaviour
     {

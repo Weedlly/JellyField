@@ -27,7 +27,8 @@ namespace GamePlay.TileData
         }
         public void SetHover(bool isHover)
         {
-            _imgHover.enabled = isHover;
+            if (_imgHover)
+                _imgHover.enabled = isHover;
         }
         public void ResetBlock()
         {
