@@ -35,7 +35,12 @@ namespace GamePlay.GenTileZone
                     break;
                 }
             }
-            if (nearestBlock && nearestBlock != _preNearestBlock)
+            if (!nearestBlock)
+            {
+                if (_preNearestBlock)
+                    _preNearestBlock.SetHover(false);
+            }
+            else if (nearestBlock != _preNearestBlock)
             {
                 if (_preNearestBlock)
                     _preNearestBlock.SetHover(false);

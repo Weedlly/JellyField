@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveBlocks: []
-  _minShowHover: 0.5
+  _minShowHover: 1
 --- !u!1 &670457109
 GameObject:
   m_ObjectHideFlags: 0
