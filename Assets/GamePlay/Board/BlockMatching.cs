@@ -41,19 +41,38 @@ namespace GamePlay.Board
                 _dictionaryMatching[tileVal] = eDirectionMatches;
             }
         }
+        private Queue<SingleBlock> _waitToCheckMatchingSingleBlocks;
         public void RunBfsAlgorithm(SingleBlock singleBlock)
         {
-            _affectedTiles = new List<SingleTile>();
-            _dictionaryMatching = new Dictionary<int, List<EDirection>>();
-            
+            _waitToCheckMatchingSingleBlocks = new Queue<SingleBlock>();
+            _waitToCheckMatchingSingleBlocks.Enqueue(singleBlock);
+           
+            while (_waitToCheckMatchingSingleBlocks.Count != 0)
+            {
+                SingleBlock curBlock = _waitToCheckMatchingSingleBlocks.Peek();
+                _waitToCheckMatchingSingleBlocks.Dequeue();
+                
+                _affectedTiles = new List<SingleTile>();
+                _dictionaryMatching = new Dictionary<int, List<EDirection>>();
+                MatchContinue(curBlock);
+                SetTileDataAfterMatching();
+                FillBlockData(curBlock);
+                
+                if (_dictionaryMatching.Count != 0)
+                {
+                    _waitToCheckMatchingSingleBlocks.Enqueue(singleBlock);
+                    
+                    Debug.Log("_affectedTiles " + _affectedTiles.Count);
+                    Debug.Log("_dictionaryMatching" + _dictionaryMatching.Count);
+                }
+            }
+        }
+        public void MatchContinue(SingleBlock singleBlock)
+        {
             FindSingleTileMatching(singleBlock.LeftTopSingleTile, singleBlock.idx);
             FindSingleTileMatching(singleBlock.RightTopSingleTile, singleBlock.idx);
             FindSingleTileMatching(singleBlock.LeftBottmSingleTile, singleBlock.idx);
             FindSingleTileMatching(singleBlock.RightBottomSingleTile, singleBlock.idx);
-
-            SetTileDataAfterMatching();
-            Debug.Log("_affectedTiles " + _affectedTiles.Count);
-            Debug.Log("_dictionaryMatching" + _dictionaryMatching.Count);
         }
         private void SetTileDataAfterMatching()
         {
@@ -62,12 +81,18 @@ namespace GamePlay.Board
                 affectedTile.SetTileData(0);
             }
         }
-        private void PlayMatching()
+        private void FillBlockData(SingleBlock singleBlock)
         {
-            
-            foreach (var affectedTile in _affectedTiles)
+            int[] idX = { 1, 0, -1, 0, 0 };
+            int[] idY = { 0, 1, 0, -1, 0 };
+            for (int i = 0; i < 5; i++)
             {
-                
+                int curX = singleBlock.idx[0] + idX[i];
+                int curY = singleBlock.idx[1] + idY[i];
+                if (IsAvailableIndex(curX, curY, MaxCol, MaxRow) && TwoDSingleBlocks[curX, curY])
+                {
+                    TwoDSingleBlocks[curX, curY].FillTileData();
+                }
             }
         }
         private Dictionary<int, List<EDirection>> _dictionaryMatching;
@@ -103,13 +128,20 @@ namespace GamePlay.Board
                         continue;
                     }
                     SingleTile visitedSingleTile = TwoDSingleTileVales[visitedIdxX, visitedIdxY];
-                    if (!visitedSingleTile || visited2DArr[visitedIdxX, visitedIdxY]
-                                           || curVal != visitedSingleTile.CurTileVal)
+                    if (!visitedSingleTile 
+                        || visitedSingleTile.CurTileVal == 0 
+                        || visited2DArr[visitedIdxX, visitedIdxY]
+                        || curVal != visitedSingleTile.CurTileVal)
                         continue;
                     if (IsTileBelongAdjustBlock(searchingBlockId, visitedSingleTile.BlockIdx))
                     {
                         EDirection eDirection = FindBlockDirection(searchingBlockId, visitedSingleTile.BlockIdx);
                         matchingDict[eDirection] = true;
+                        
+                        if (!_waitToCheckMatchingSingleBlocks.Contains(TwoDSingleBlocks[visitedSingleTile.BlockIdx[0],visitedSingleTile.BlockIdx[1]]))
+                        {
+                            _waitToCheckMatchingSingleBlocks.Enqueue(TwoDSingleBlocks[visitedSingleTile.BlockIdx[0],visitedSingleTile.BlockIdx[1]]);
+                        }
                     }
                     if (!affectTile.Contains(visitedSingleTile))
                         affectTile.Add(visitedSingleTile);
@@ -118,7 +150,7 @@ namespace GamePlay.Board
                 }
             }
             List<EDirection> matchingList = new List<EDirection>();
-            
+
             foreach (var isMatch in matchingDict)
             {
                 if (isMatch.Value)
@@ -136,6 +168,7 @@ namespace GamePlay.Board
                 AddToMatchingDict(searchingTile.CurTileVal, matchingList);
             }
         }
+
         public enum EDirection
         {
             Left = 0,

@@ -21,7 +21,7 @@ namespace GamePlay.TileData
         public SingleTile LeftBottmSingleTile;
         public SingleTile RightBottomSingleTile;
         // public int[] BlockTileVales;
-        public bool IsEmpty; 
+        public bool IsEmpty;
         public void SetBlockData(int lt, int rt, int lb, int rb)
         {
             IsEmpty = lt + rt + lb + rb == 0;
@@ -31,12 +31,47 @@ namespace GamePlay.TileData
             LeftBottmSingleTile.SetTileData(lb);
             RightBottomSingleTile.SetTileData(rb);
         }
-        public void ReCheckEmpty()
+        public void FillTileData()
         {
-            IsEmpty = LeftTopSingleTile.CurTileVal 
-                      + RightTopSingleTile.CurTileVal
-                      + LeftBottmSingleTile.CurTileVal
-                      + RightBottomSingleTile.CurTileVal== 0; 
+            ReCheckEmpty();
+            while (!IsFillAll() && !IsEmpty)
+            {
+                ApplyFillRule();
+                ReCheckEmpty();
+            }
+        }
+        private bool IsFillAll()
+        {
+            return LeftTopSingleTile.CurTileVal != 0
+                   && RightTopSingleTile.CurTileVal != 0
+                   && LeftBottmSingleTile.CurTileVal != 0
+                   && RightBottomSingleTile.CurTileVal != 0;
+        }
+        private void ApplyFillRule()
+        {
+            if (LeftTopSingleTile.CurTileVal == 0 && LeftBottmSingleTile.CurTileVal != 0)
+            {
+                LeftTopSingleTile.SetTileData(LeftBottmSingleTile.CurTileVal);
+            }
+            else if(RightTopSingleTile.CurTileVal == 0 && LeftTopSingleTile.CurTileVal != 0)
+            {
+                RightTopSingleTile.SetTileData(LeftTopSingleTile.CurTileVal);
+            }
+            else if(RightBottomSingleTile.CurTileVal == 0 && RightTopSingleTile.CurTileVal != 0)
+            {
+                RightBottomSingleTile.SetTileData(RightTopSingleTile.CurTileVal);
+            }
+            else if(LeftBottmSingleTile.CurTileVal == 0 && RightBottomSingleTile.CurTileVal != 0)
+            {
+                LeftBottmSingleTile.SetTileData(RightBottomSingleTile.CurTileVal);
+            }
+        }
+        private void ReCheckEmpty()
+        {
+            IsEmpty = LeftTopSingleTile.CurTileVal
+                + RightTopSingleTile.CurTileVal
+                + LeftBottmSingleTile.CurTileVal
+                + RightBottomSingleTile.CurTileVal == 0;
         }
         public void SetShowing(bool isShowing)
         {

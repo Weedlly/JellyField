@@ -63,7 +63,6 @@ namespace GamePlay.Board
                 
                 Vector2 blockPos = singleBlock.transform.position;
                 float curDis = Vector2.Distance(CurPointerPos, blockPos);
-                Debug.Log("curDis " + curDis);
                 if (curDis < _minShowHover)
                 {
                     nearestBlock = singleBlock;

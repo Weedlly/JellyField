@@ -50,11 +50,12 @@ namespace GamePlay.GenTileZone
         {
             if (_leftBlock.IsEmpty)
             {
-                _leftBlock.SetBlockData(
-                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight));
+                _leftBlock.SetBlockData(3,1,3,1);
+                // _leftBlock.SetBlockData(
+                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight));
                 _leftDragBlock.SingleBlock = _leftBlock;
             }
             if (_rightBlock.IsEmpty)
