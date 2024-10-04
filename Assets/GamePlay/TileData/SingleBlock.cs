@@ -24,7 +24,7 @@ namespace GamePlay.TileData
         public bool IsEmpty;
         public void SetBlockData(int lt, int rt, int lb, int rb)
         {
-            IsEmpty = lt + rt + lb + rb == 0;
+            IsEmpty = (lt + rt + lb + rb) == 0;
             // BlockTileVales = new[] { lt, rt, lb, rb };
             LeftTopSingleTile.SetTileData(lt);
             RightTopSingleTile.SetTileData(rt);
@@ -68,10 +68,10 @@ namespace GamePlay.TileData
         }
         private void ReCheckEmpty()
         {
-            IsEmpty = LeftTopSingleTile.CurTileVal
+            IsEmpty = (LeftTopSingleTile.CurTileVal
                 + RightTopSingleTile.CurTileVal
                 + LeftBottmSingleTile.CurTileVal
-                + RightBottomSingleTile.CurTileVal == 0;
+                + RightBottomSingleTile.CurTileVal) == 0;
         }
         public void SetShowing(bool isShowing)
         {

@@ -1,4 +1,5 @@
 using GamePlay.TileData;
+using GamePlay.TileGoal;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +58,7 @@ namespace GamePlay.Board
                 MatchContinue(curBlock);
                 SetTileDataAfterMatching();
                 FillBlockData(curBlock);
+                Scoring();
                 
                 if (_dictionaryMatching.Count != 0)
                 {
@@ -65,6 +67,34 @@ namespace GamePlay.Board
                     Debug.Log("_affectedTiles " + _affectedTiles.Count);
                     Debug.Log("_dictionaryMatching" + _dictionaryMatching.Count);
                 }
+            }
+            if (GoalManager.Instance.IsWinGoal())
+                return;
+            
+            if (IsLosingGame())
+            {
+                Debug.Log("Losing");
+            }
+        }
+        private bool IsLosingGame()
+        {
+            for (int i = 0; i < MaxCol; i++)
+            {
+                for (int j = 0; j < MaxRow; j++)
+                {
+                    if (TwoDSingleBlocks[i,j].IsEmpty)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        private void Scoring()
+        {
+            foreach (var tileMatching in _dictionaryMatching)
+            {
+                GoalManager.Instance.Scoring(tileMatching.Key,tileMatching.Value.Count + 1);
             }
         }
         public void MatchContinue(SingleBlock singleBlock)

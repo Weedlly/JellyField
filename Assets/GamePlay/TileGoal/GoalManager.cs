@@ -21,10 +21,29 @@ namespace GamePlay.TileGoal
         {
             SetupView();
         }
-        public void MatchingTile(int tileVal, int matchCount)
+        public void Scoring(int tileVal, int matchCount)
         {
-            CurTileGoalDict[tileVal] -= matchCount;
+            if (CurTileGoalDict.ContainsKey(tileVal))
+            {
+                CurTileGoalDict[tileVal] -= matchCount;
+                if (CurTileGoalDict[tileVal] < 0)
+                {
+                    CurTileGoalDict[tileVal] = 0;
+                }
+            }
+           
             UpdateView();
+            
+            IsWinGoal();
+        }
+        public bool IsWinGoal()
+        {
+            foreach (var goal in CurTileGoalDict)
+            {
+                if (goal.Value != 0)
+                    return false;
+            }
+            return true;
         }
         private void UpdateView()
         {
