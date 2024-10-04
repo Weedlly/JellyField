@@ -39,6 +39,7 @@ namespace GamePlay.Board
             singleBlock.RightTopSingleTile.TileIdx = PreNearestBlock.RightTopSingleTile.TileIdx;
             singleBlock.LeftBottmSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
             singleBlock.RightBottomSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
+            singleBlock.idx = PreNearestBlock.idx;
             _blockMatching.RunBfsAlgorithm(singleBlock); 
             
             PreNearestBlock.SetHover(false);

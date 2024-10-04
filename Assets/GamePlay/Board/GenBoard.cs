@@ -10,7 +10,6 @@ namespace GamePlay.Board
     {
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         [SerializeField] private List<SingleBlock> _defaultSingleBlocks;
-        [SerializeField] private int _curLevel;
         [SerializeField] private LevelDesignDataConfig _levelDesignConfig;
         private List<SingleBlock> _activeBlocks;
         private SingleBlock[,] _2dSingleBlocks;
@@ -20,7 +19,7 @@ namespace GamePlay.Board
         private int _maxVirtualBlock;
         private void Start()
         {
-            _curLevelDesign = _levelDesignConfig.GeConfigByKey(_curLevel);
+            _curLevelDesign = _levelDesignConfig.GeConfigByKey(LevelManager.Instance.CurLevel);
             _activeBlocks = new List<SingleBlock>();
             OnGenBoard();
         }

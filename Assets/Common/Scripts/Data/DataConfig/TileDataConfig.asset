@@ -17,15 +17,20 @@ MonoBehaviour:
     - Key: 1
       Value:
         Material: {fileID: 2100000, guid: f87681d6f718643848fd63ea0eea55fd, type: 2}
+        Color: {r: 0.09411765, g: 0.78039217, b: 0.84705883, a: 1}
     - Key: 2
       Value:
         Material: {fileID: 2100000, guid: 9bb5a30faca2b4f2e912cfbe6c8af26f, type: 2}
+        Color: {r: 0.13725491, g: 0.90588236, b: 0.019607844, a: 0}
     - Key: 3
       Value:
         Material: {fileID: 2100000, guid: 46b5b228169404eee96ca6c0b678ec8a, type: 2}
+        Color: {r: 0.5686275, g: 0.08235294, b: 1, a: 0}
     - Key: 4
       Value:
         Material: {fileID: 2100000, guid: 66121595482aa4351b62f9020830a234, type: 2}
+        Color: {r: 1, g: 0, b: 0, a: 0}
     - Key: 5
       Value:
         Material: {fileID: 2100000, guid: 18d4172dd663c489a8b4f6caab133983, type: 2}
+        Color: {r: 0.99607843, g: 0.80784315, b: 0, a: 0}

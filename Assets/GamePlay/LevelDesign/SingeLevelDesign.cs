@@ -27,11 +27,18 @@ namespace GamePlay.LevelDesign
         }
     }
     [Serializable]
+    public struct TileGoalConfig
+    {
+        public int Number;
+        public int TileId;
+    }
+    [Serializable]
     public class SingeLevelDesign
     {
         public int MaxRow;
         public int MaxCol;
         public List<RowBlockArr> BlockArrConfig = new List<RowBlockArr>();
+        public List<TileGoalConfig> TileGoalConfigs = new List<TileGoalConfig>();
         public List<Block> GetAllBlock()
         {
             List<Block> blocks = new List<Block>();

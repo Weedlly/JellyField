@@ -7,5 +7,6 @@ namespace GamePlay.TileData
     public class TileData
     {
         public Material Material;
+        public Color Color;
     }
 }
