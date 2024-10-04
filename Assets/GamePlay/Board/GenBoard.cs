@@ -67,6 +67,7 @@ namespace GamePlay.Board
             for (int i = 0; i < _defaultSingleBlocks.Count; i++)
             {
                 bool isShowing = i < _maxVirtualBlock;
+                _defaultSingleBlocks[i].ResetBlock();
                 _defaultSingleBlocks[i].gameObject.SetActive(isShowing);
             }
         }

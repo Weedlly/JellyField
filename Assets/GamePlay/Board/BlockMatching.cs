@@ -76,7 +76,6 @@ namespace GamePlay.Board
             
             if (IsLosingGame())
             {
-                CreateBlockZone.Instance.HideBlocks(true);
                 NavigatorController.MainModalContainer.Push(ResourceKey.Prefabs.LosingModal, false);
             }
         }
@@ -86,7 +85,7 @@ namespace GamePlay.Board
             {
                 for (int j = 0; j < MaxRow; j++)
                 {
-                    if (TwoDSingleBlocks[i,j].IsEmpty)
+                    if (TwoDSingleBlocks[i,j] && TwoDSingleBlocks[i,j].IsEmpty)
                     {
                         return false;
                     }

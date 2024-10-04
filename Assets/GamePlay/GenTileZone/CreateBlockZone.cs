@@ -1,7 +1,9 @@
 using Common.Scripts;
 using Common.Scripts.Utilities;
+using Cysharp.Threading.Tasks;
 using GamePlay.Board;
 using GamePlay.TileData;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,20 +50,20 @@ namespace GamePlay.GenTileZone
         {
             return 1;
         }
-        private void OnPutOnBoard()
+        private async void OnPutOnBoard()
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
             GenBlocks();
         }
-        public void GenBlocks()
+        private void GenBlocks()
         {
             if (_leftBlock.IsEmpty)
             {
-                _leftBlock.SetBlockData(3,1,3,1);
-                // _leftBlock.SetBlockData(
-                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
-                //     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight));
+                _leftBlock.SetBlockData(
+                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight),
+                    RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight));
                 _leftDragBlock.SingleBlock = _leftBlock;
             }
             if (_rightBlock.IsEmpty)
@@ -74,19 +76,12 @@ namespace GamePlay.GenTileZone
                 _rightDragBlock.SingleBlock = _rightBlock;
             }
         }
-        public void HideBlocks(bool isHiding)
-        {
-            _leftBlock.gameObject.SetActive(!isHiding);
-            _rightBlock.gameObject.SetActive(!isHiding);
-        }
         public void OnResetGame(ResetGamePayload resetGamePayload)
         {
-            HideBlocks(false);
             OnSetup();
         }
         public void OnLevelUpPayload(LevelUpPayload levelUpPayload)
         {
-            HideBlocks(false);
             OnSetup();
         }
     }

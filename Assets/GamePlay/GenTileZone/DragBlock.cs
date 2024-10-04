@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GamePlay.Board;
 using GamePlay.TileData;
 using System;
@@ -12,8 +13,6 @@ namespace GamePlay.GenTileZone
         public SingleBlock SingleBlock;
         public Action OnPutOnBoard;
         
-        public Vector3 CurPointerPos;
-        
         private bool _isOnDrag;
         private Camera _cam;
         
@@ -27,7 +26,6 @@ namespace GamePlay.GenTileZone
             Vector3 localPos = transform.InverseTransformDirection(pos);
             transform.position = new Vector3(localPos.x, localPos.y, transform.position.z);
             _goBlock.transform.position = pos;
-            CurPointerPos = _goBlock.transform.position;
 
             BoardManager.Instance.CheckHover(new Vector2(localPos.x, localPos.y));
             _isOnDrag = true;
@@ -44,12 +42,18 @@ namespace GamePlay.GenTileZone
                     BoardManager.Instance.PutOnBoard(SingleBlock);
                     SingleBlock.ResetBlock();
                     OnPutOnBoard?.Invoke();
-                }
-                transform.position = new Vector3(_originTf.position.x, _originTf.position.y, transform.position.z);
-                _goBlock.transform.position = _originTf.position;
-                CurPointerPos = _goBlock.transform.position;
-               
+                    
+                    transform.position = new Vector3(_originTf.position.x, _originTf.position.y, transform.position.z);
 
+                    _goBlock.transform.position = _originTf.position;
+                }
+                else
+                {
+                    transform.position = new Vector3(_originTf.position.x, _originTf.position.y, transform.position.z);
+                
+                    _goBlock.transform.DOMove(_originTf.position, 0.5f);    
+                }
+                
 
                 _isOnDrag = false;
                 BoardManager.Instance.ResetHover();

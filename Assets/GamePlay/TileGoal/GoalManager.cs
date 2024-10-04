@@ -2,11 +2,11 @@ using Common.Scripts;
 using Common.Scripts.Data.DataAsset;
 using Common.Scripts.Navigator;
 using GamePlay.Board;
-using GamePlay.GenTileZone;
 using GamePlay.LevelDesign;
 using GamePlay.TileData;
 using SuperMaxim.Messaging;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +15,7 @@ namespace GamePlay.TileGoal
     public class GoalManager : SingletonBase<GoalManager>,IGameSystemCommand
     {
         [SerializeField] private List<TileGoalView> _tileGoalViews;
+        [SerializeField] private TextMeshProUGUI _textMeshPro;
         private List<TileGoalView> _activeGoalView;
         [SerializeField] private LevelDesignDataConfig _levelDesignDataConfig;
         [SerializeField] private TileDataConfig _tileDataConfig;
@@ -62,7 +63,6 @@ namespace GamePlay.TileGoal
             if (!_isWin && IsWinGoal())
             {
                 _isWin = true;
-                CreateBlockZone.Instance.HideBlocks(true);
                 ShowLevelUpModal();
             }
         }
@@ -80,13 +80,14 @@ namespace GamePlay.TileGoal
             int viewIdx = 0;
             foreach (var tileGoal in CurTileGoalDict)
             {
-                _activeGoalView[viewIdx].UpdateTileAmount(tileGoal.Value);
+                _activeGoalView[viewIdx++].UpdateTileAmount(tileGoal.Value);
             }
         }
         private void SetupView()
         {
             _activeGoalView = new List<TileGoalView>();
-            _tileGoalConfigs  =_levelDesignDataConfig.GeConfigByKey(_userDataAsset.CurLevel).TileGoalConfigs;
+            _tileGoalConfigs  = _levelDesignDataConfig.GeConfigByKey(_userDataAsset.CurLevel).TileGoalConfigs;
+            _textMeshPro.text = $"LEVEL {_userDataAsset.CurLevel}";
             CurTileGoalDict = new Dictionary<int, int>();
             foreach (var tileGoal in _tileGoalConfigs)
             {
