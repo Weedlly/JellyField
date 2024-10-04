@@ -3290,9 +3290,9 @@ RectTransform:
   - {fileID: 1678409977}
   m_Father: {fileID: 599660752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -387, y: 791}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 153, y: 791}
   m_SizeDelta: {x: 178.5, y: 131.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &999728983
@@ -3431,7 +3431,6 @@ MonoBehaviour:
   _originTf: {fileID: 1420073782}
   _goBlock: {fileID: 1846331517}
   SingleBlock: {fileID: 1846331519}
-  CurPointerPos: {x: 0, y: 0, z: 0}
 --- !u!65 &1005827150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5902,7 +5901,6 @@ MonoBehaviour:
   _originTf: {fileID: 730513952}
   _goBlock: {fileID: 6750578374064241118}
   SingleBlock: {fileID: 6293467814546253170}
-  CurPointerPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1758605423
 GameObject:
   m_ObjectHideFlags: 0
