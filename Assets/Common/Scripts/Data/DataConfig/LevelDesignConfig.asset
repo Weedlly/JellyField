@@ -479,9 +479,9 @@ MonoBehaviour:
             BottomLeft: 0
             BottomRight: 0
         TileGoalConfigs:
-        - Number: 2
+        - Number: 4
           TileId: 1
-        - Number: 2
+        - Number: 4
           TileId: 2
-        - Number: 2
+        - Number: 4
           TileId: 3
