@@ -34,14 +34,6 @@ namespace GamePlay.Board
         }
         public void PutOnBoard(SingleBlock singleBlock)
         {
-            _blockMatching = new BlockMatching(TwoDSingleBlocks,TwoDSingleTiles,MaxBlockCol,MaxBlockCol);
-            singleBlock.LeftTopSingleTile.TileIdx = PreNearestBlock.LeftTopSingleTile.TileIdx;
-            singleBlock.RightTopSingleTile.TileIdx = PreNearestBlock.RightTopSingleTile.TileIdx;
-            singleBlock.LeftBottmSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
-            singleBlock.RightBottomSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
-            singleBlock.SetBlockId( PreNearestBlock.idx);
-            _blockMatching.RunBfsAlgorithm(singleBlock); 
-            
             PreNearestBlock.SetHover(false);
             PreNearestBlock.SetShowing(true);
             // replace tile data
@@ -50,6 +42,14 @@ namespace GamePlay.Board
                 singleBlock.RightTopSingleTile.CurTileVal,
                 singleBlock.LeftBottmSingleTile.CurTileVal,
                 singleBlock.RightBottomSingleTile.CurTileVal);
+            
+            _blockMatching = new BlockMatching(TwoDSingleBlocks,TwoDSingleTiles,MaxBlockCol,MaxBlockCol);
+            singleBlock.LeftTopSingleTile.TileIdx = PreNearestBlock.LeftTopSingleTile.TileIdx;
+            singleBlock.RightTopSingleTile.TileIdx = PreNearestBlock.RightTopSingleTile.TileIdx;
+            singleBlock.LeftBottmSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
+            singleBlock.RightBottomSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
+            singleBlock.SetBlockId( PreNearestBlock.idx);
+            _blockMatching.RunBfsAlgorithm(singleBlock);
         }
         
         public void CheckHover(Vector2 CurPointerPos)

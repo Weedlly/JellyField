@@ -13,5 +13,9 @@ namespace GamePlay.TileGoal
             _textMeshPro.text = tileAmountNeed.ToString();
             _image.color = tileColor;
         }
+        public void UpdateTileAmount(int tileAmountNeed)
+        {
+            _textMeshPro.text = tileAmountNeed.ToString();
+        }
     }
 }

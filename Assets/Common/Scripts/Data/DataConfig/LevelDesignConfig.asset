@@ -21,7 +21,7 @@ MonoBehaviour:
         BlockArrConfig:
         - Blocks:
           - IsEmpty: 0
-            NotExist: 1
+            NotExist: 0
             TopLeft: 1
             TopRight: 2
             BottomLeft: 3
@@ -30,8 +30,8 @@ MonoBehaviour:
           - IsEmpty: 0
             NotExist: 0
             TopLeft: 1
-            TopRight: 1
-            BottomLeft: 1
+            TopRight: 2
+            BottomLeft: 3
             BottomRight: 1
         TileGoalConfigs:
         - Number: 4

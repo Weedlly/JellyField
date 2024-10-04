@@ -10,6 +10,7 @@ namespace GamePlay.TileGoal
     public class GoalManager : SingletonBase<GoalManager>
     {
         [SerializeField] private List<TileGoalView> _tileGoalViews;
+        private List<TileGoalView> _activeGoalView;
         [SerializeField] private LevelDesignDataConfig _levelDesignDataConfig;
         [SerializeField] private TileDataConfig _tileDataConfig;
         [SerializeField] private UserDataAsset _userDataAsset;
@@ -20,8 +21,22 @@ namespace GamePlay.TileGoal
         {
             SetupView();
         }
+        public void MatchingTile(int tileVal, int matchCount)
+        {
+            CurTileGoalDict[tileVal] -= matchCount;
+            UpdateView();
+        }
+        private void UpdateView()
+        {
+            int viewIdx = 0;
+            foreach (var tileGoal in CurTileGoalDict)
+            {
+                _activeGoalView[viewIdx].UpdateTileAmount(tileGoal.Value);
+            }
+        }
         private void SetupView()
         {
+            _activeGoalView = new List<TileGoalView>();
             _tileGoalConfigs  =_levelDesignDataConfig.GeConfigByKey(_userDataAsset.CurLevel).TileGoalConfigs;
             CurTileGoalDict = new Dictionary<int, int>();
             foreach (var tileGoal in _tileGoalConfigs)
@@ -32,12 +47,13 @@ namespace GamePlay.TileGoal
             {
                 bool isShowView = i < _tileGoalConfigs.Count;
                 _tileGoalViews[i].gameObject.SetActive(isShowView);
-
-                if (isShowView)
-                {
-                    TileData.TileData tileData = _tileDataConfig.GeConfigByKey(_tileGoalConfigs[i].TileId);
-                    _tileGoalViews[i].Setup(tileData.Color,_tileGoalConfigs[i].Number);
-                }
+                _activeGoalView.Add(_tileGoalViews[i]);
+            }
+            int viewIdx = 0;
+            foreach (var tileGoal in CurTileGoalDict)
+            {
+                TileData.TileData tileData = _tileDataConfig.GeConfigByKey(tileGoal.Key);
+                _activeGoalView[viewIdx++].Setup(tileData.Color,tileGoal.Value);
             }
         }
     }
