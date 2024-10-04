@@ -7,15 +7,31 @@ namespace GamePlay.TileData
     {
         [SerializeField] private Image _blockBg;
         [SerializeField] private Image _imgHover;
+        public int[] idx
+        {
+            get
+            {
+                return idx;
+            }
+            set
+            {
+                idx = value;
+                LeftTopSingleTile.BlockIdx = idx;
+                RightTopSingleTile.BlockIdx = idx;
+                LeftBottmSingleTile.BlockIdx = idx;
+                RightBottomSingleTile.BlockIdx = idx;
+            }
+        }
         public SingleTile LeftTopSingleTile;
         public SingleTile RightTopSingleTile;
         public SingleTile LeftBottmSingleTile;
         public SingleTile RightBottomSingleTile;
+        public int[] BlockTileVales;
         public bool IsEmpty; 
         public void SetBlockData(int lt, int rt, int lb, int rb)
         {
             IsEmpty = lt + rt + lb + rb == 0;
-            
+            BlockTileVales = new[] { lt, rt, lb, rb };
             LeftTopSingleTile.SetTileData(lt);
             RightTopSingleTile.SetTileData(rt);
             LeftBottmSingleTile.SetTileData(lb);
@@ -32,6 +48,7 @@ namespace GamePlay.TileData
         }
         public void ResetBlock()
         {
+            BlockTileVales = new[] { 0, 0, 0, 0};
             IsEmpty = true;
             LeftTopSingleTile.SetTileData(0);
             RightTopSingleTile.SetTileData(0);

@@ -5,6 +5,8 @@ namespace GamePlay.TileData
 {
     public class SingleTile : MonoBehaviour
     {
+        public int[] BlockIdx;
+        public int[] TileIdx;
         public GameObject Tile;
         public TileDataConfig _tileDataConfig;
         public MeshRenderer MeshRenderer;

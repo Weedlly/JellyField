@@ -10,7 +10,12 @@ namespace GamePlay.Board
         public List<SingleBlock> ActiveBlocks;
         [SerializeField] private float _minShowHover;
         public SingleBlock PreNearestBlock;
+        public SingleBlock[,] TwoDSingleBlocks;
+        public SingleTile[,] TwoDSingleTiles;
+        public int MaxBlockCol;
+        public int MaxBlockRow;
 
+        [SerializeField] private BlockMatching _blockMatching;
         public void ResetHover()
         {
             if (PreNearestBlock)
@@ -29,6 +34,13 @@ namespace GamePlay.Board
         }
         public void PutOnBoard(SingleBlock singleBlock)
         {
+            _blockMatching = new BlockMatching(TwoDSingleBlocks,TwoDSingleTiles,MaxBlockCol,MaxBlockCol);
+            singleBlock.LeftTopSingleTile.TileIdx = PreNearestBlock.LeftTopSingleTile.TileIdx;
+            singleBlock.RightTopSingleTile.TileIdx = PreNearestBlock.RightTopSingleTile.TileIdx;
+            singleBlock.LeftBottmSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
+            singleBlock.RightBottomSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
+            _blockMatching.RunBfsAlgorithm(singleBlock); 
+            
             PreNearestBlock.SetHover(false);
             PreNearestBlock.SetShowing(true);
             // replace tile data
@@ -60,7 +72,10 @@ namespace GamePlay.Board
             if (!nearestBlock)
             {
                 if (PreNearestBlock)
+                {
                     PreNearestBlock.SetHover(false);
+                    PreNearestBlock = null;
+                }
             }
             else if (nearestBlock != PreNearestBlock)
             {

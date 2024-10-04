@@ -1,19 +1,20 @@
-using GamePlay.Board;
-using GamePlay.GenTileZone;
 using GamePlay.LevelDesign;
+using GamePlay.TileData;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GamePlay.TileData
+namespace GamePlay.Board
 {
     public class GenBoard : MonoBehaviour
     {
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         [SerializeField] private List<SingleBlock> _defaultSingleBlocks;
-        private List<SingleBlock> _activeBlocks;
         [SerializeField] private int _curLevel;
         [SerializeField] private LevelDesignDataConfig _levelDesignConfig;
+        private List<SingleBlock> _activeBlocks;
+        private SingleBlock[,] _2dSingleBlocks;
+        private SingleTile[,] _2dSingleTiles;
 
         private SingeLevelDesign _curLevelDesign;
         private int _maxVirtualBlock;
@@ -28,9 +29,17 @@ namespace GamePlay.TileData
             _gridLayoutGroup.constraintCount = _curLevelDesign.MaxCol;
             _maxVirtualBlock = _curLevelDesign.MaxCol * _curLevelDesign.MaxRow;
 
+            _2dSingleBlocks = new SingleBlock[_curLevelDesign.MaxCol, _curLevelDesign.MaxRow];
+            _2dSingleTiles = new SingleTile[_curLevelDesign.MaxCol * 2, _curLevelDesign.MaxRow * 2];
+
             RenderBlocksByColAndRow();
             RenderTileData();
             BoardManager.Instance.ActiveBlocks = _activeBlocks;
+            BoardManager.Instance.TwoDSingleBlocks = _2dSingleBlocks;
+            BoardManager.Instance.TwoDSingleTiles = _2dSingleTiles;
+
+            BoardManager.Instance.MaxBlockCol = _curLevelDesign.MaxCol;
+            BoardManager.Instance.MaxBlockRow = _curLevelDesign.MaxRow;
         }
         private void RenderBlocksByColAndRow()
         {
@@ -42,17 +51,32 @@ namespace GamePlay.TileData
         }
         private void RenderTileData()
         {
-            int curBlock = 0;
             List<Block> blocks = _curLevelDesign.GetAllBlock();
+            int x = -1;
+            int y = 0;
             for (int i = 0; i < _maxVirtualBlock; i++)
             {
+                if (x < _curLevelDesign.MaxCol)
+                {
+                    x++;
+                }
+                if (x >= _curLevelDesign.MaxCol)
+                {
+                    x = 0;
+                    y += 1;
+                }
+
                 if (i < blocks.Count)
                 {
 
                     Block block = blocks[i];
                     if (block.NotExist)
                     {
-                        _defaultSingleBlocks[i].ResetBlock();
+                        _2dSingleTiles[x, y * 2] = null;
+                        _2dSingleTiles[x + 1, y * 2] = null;
+                        _2dSingleTiles[x, y * 2 + 1] = null;
+                        _2dSingleTiles[x + 1, y * 2 + 1] = null;
+                        _2dSingleBlocks[x, y] = null;
                         _defaultSingleBlocks[i].SetShowing(false);
                         continue;
                     }
@@ -65,6 +89,21 @@ namespace GamePlay.TileData
                     _activeBlocks.Add(_defaultSingleBlocks[i]);
                     _defaultSingleBlocks[i].ResetBlock();
                 }
+                
+                _2dSingleBlocks[x, y] = _defaultSingleBlocks[i];
+                _2dSingleBlocks[x, y].idx = new[] { x, y };
+                
+                _2dSingleTiles[x * 2, y * 2] = _defaultSingleBlocks[i].LeftTopSingleTile;
+                _2dSingleTiles[x * 2, y * 2].TileIdx = new[] { x * 2, y * 2 };
+                
+                _2dSingleTiles[x * 2 + 1, y * 2] = _defaultSingleBlocks[i].RightTopSingleTile;
+                _2dSingleTiles[x * 2 + 1, y * 2].TileIdx = new[] {x * 2 + 1, y * 2 };
+                
+                _2dSingleTiles[x * 2, y * 2 + 1] = _defaultSingleBlocks[i].LeftBottmSingleTile;
+                _2dSingleTiles[x * 2, y * 2 + 1].TileIdx = new[] {x * 2, y * 2 + 1};
+                
+                _2dSingleTiles[x * 2 + 1, y * 2 + 1] = _defaultSingleBlocks[i].RightBottomSingleTile;
+                _2dSingleTiles[x * 2 + 1, y * 2 + 1].TileIdx = new[] {x * 2 + 1, y * 2 + 1};
             }
         }
     }
