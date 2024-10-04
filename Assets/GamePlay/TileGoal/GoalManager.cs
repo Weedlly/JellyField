@@ -1,4 +1,5 @@
 using Common.Scripts;
+using Common.Scripts.Data.DataAsset;
 using GamePlay.LevelDesign;
 using GamePlay.TileData;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace GamePlay.TileGoal
         [SerializeField] private List<TileGoalView> _tileGoalViews;
         [SerializeField] private LevelDesignDataConfig _levelDesignDataConfig;
         [SerializeField] private TileDataConfig _tileDataConfig;
+        [SerializeField] private UserDataAsset _userDataAsset;
         public Dictionary<int, int> CurTileGoalDict;
         private List<TileGoalConfig> _tileGoalConfigs;
 
@@ -20,7 +22,7 @@ namespace GamePlay.TileGoal
         }
         private void SetupView()
         {
-            _tileGoalConfigs  =_levelDesignDataConfig.GeConfigByKey(LevelManager.Instance.CurLevel).TileGoalConfigs;
+            _tileGoalConfigs  =_levelDesignDataConfig.GeConfigByKey(_userDataAsset.CurLevel).TileGoalConfigs;
             CurTileGoalDict = new Dictionary<int, int>();
             foreach (var tileGoal in _tileGoalConfigs)
             {

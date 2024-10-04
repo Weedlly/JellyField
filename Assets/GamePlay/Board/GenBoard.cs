@@ -1,3 +1,4 @@
+using Common.Scripts.Data.DataAsset;
 using GamePlay.LevelDesign;
 using GamePlay.TileData;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace GamePlay.Board
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         [SerializeField] private List<SingleBlock> _defaultSingleBlocks;
         [SerializeField] private LevelDesignDataConfig _levelDesignConfig;
+        [SerializeField] private UserDataAsset _userDataAsset;
         private List<SingleBlock> _activeBlocks;
         private SingleBlock[,] _2dSingleBlocks;
         private SingleTile[,] _2dSingleTiles;
@@ -19,7 +21,7 @@ namespace GamePlay.Board
         private int _maxVirtualBlock;
         private void Start()
         {
-            _curLevelDesign = _levelDesignConfig.GeConfigByKey(LevelManager.Instance.CurLevel);
+            _curLevelDesign = _levelDesignConfig.GeConfigByKey(_userDataAsset.CurLevel);
             _activeBlocks = new List<SingleBlock>();
             OnGenBoard();
         }
@@ -90,7 +92,7 @@ namespace GamePlay.Board
                 }
                 
                 _2dSingleBlocks[x, y] = _defaultSingleBlocks[i];
-                _2dSingleBlocks[x, y].idx = new[] { x, y };
+                _2dSingleBlocks[x, y].SetBlockId( new[] { x, y });
                 
                 _2dSingleTiles[x * 2, y * 2] = _defaultSingleBlocks[i].LeftTopSingleTile;
                 _2dSingleTiles[x * 2, y * 2].TileIdx = new[] { x * 2, y * 2 };

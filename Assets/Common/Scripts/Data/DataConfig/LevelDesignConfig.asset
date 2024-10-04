@@ -33,8 +33,12 @@ MonoBehaviour:
             TopRight: 1
             BottomLeft: 1
             BottomRight: 1
+        TileGoalConfigs:
+        - Number: 4
+          TileId: 1
     - Key: 2
       Value:
         MaxRow: 0
         MaxCol: 0
         BlockArrConfig: []
+        TileGoalConfigs: []

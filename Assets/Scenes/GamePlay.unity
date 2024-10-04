@@ -1295,7 +1295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &453050804
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1835,6 +1835,7 @@ MonoBehaviour:
   - {fileID: 230382368}
   - {fileID: 933074755}
   _levelDesignConfig: {fileID: 11400000, guid: b6ea3cd5a5a344bba9f0a6c7a0fc85c2, type: 2}
+  _userDataAsset: {fileID: 11400000, guid: 225ac478c89b546f98ab6af7e343f290, type: 2}
 --- !u!114 &662856084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1909,7 +1910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -4864,9 +4865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1479977368}
   - component: {fileID: 1479977370}
-  - component: {fileID: 1479977369}
   - component: {fileID: 1479977371}
-  - component: {fileID: 1479977372}
   m_Layer: 0
   m_Name: Goals
   m_TagString: Untagged
@@ -4895,36 +4894,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.49, y: -340.41998}
   m_SizeDelta: {x: 517.77, y: 172.12}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1479977369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479977367}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1479977370
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4953,19 +4922,7 @@ MonoBehaviour:
   - {fileID: 596198456}
   _levelDesignDataConfig: {fileID: 11400000, guid: b6ea3cd5a5a344bba9f0a6c7a0fc85c2, type: 2}
   _tileDataConfig: {fileID: 11400000, guid: bbd4fee9b1a5e4951958eaecb3428a6e, type: 2}
---- !u!114 &1479977372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479977367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d974c5515917418d8a647b0a25f4256f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurLevel: 1
+  _userDataAsset: {fileID: 11400000, guid: 225ac478c89b546f98ab6af7e343f290, type: 2}
 --- !u!1001 &1567598515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6008,6 +5965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _blockBg: {fileID: 1846331520}
   _imgHover: {fileID: 0}
+  idx: 
   LeftTopSingleTile: {fileID: 1315536296}
   RightTopSingleTile: {fileID: 792199170}
   LeftBottmSingleTile: {fileID: 1291004734}
@@ -7139,6 +7097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _blockBg: {fileID: 3256660200213002620}
   _imgHover: {fileID: 0}
+  idx: 
   LeftTopSingleTile: {fileID: 4584704861809342875}
   RightTopSingleTile: {fileID: 2525352823462225003}
   LeftBottmSingleTile: {fileID: 7183522820017250613}

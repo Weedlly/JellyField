@@ -7,20 +7,14 @@ namespace GamePlay.TileData
     {
         [SerializeField] private Image _blockBg;
         [SerializeField] private Image _imgHover;
-        public int[] idx
+        public int[] idx;
+        public void SetBlockId(int[] blockId)
         {
-            get
-            {
-                return idx;
-            }
-            set
-            {
-                idx = value;
-                LeftTopSingleTile.BlockIdx = idx;
-                RightTopSingleTile.BlockIdx = idx;
-                LeftBottmSingleTile.BlockIdx = idx;
-                RightBottomSingleTile.BlockIdx = idx;
-            }
+            idx = blockId;
+            LeftTopSingleTile.BlockIdx = idx;
+            RightTopSingleTile.BlockIdx = idx;
+            LeftBottmSingleTile.BlockIdx = idx;
+            RightBottomSingleTile.BlockIdx = idx;
         }
         public SingleTile LeftTopSingleTile;
         public SingleTile RightTopSingleTile;
