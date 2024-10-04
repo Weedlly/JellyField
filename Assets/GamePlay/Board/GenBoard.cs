@@ -1,13 +1,25 @@
 using Common.Scripts.Data.DataAsset;
 using GamePlay.LevelDesign;
 using GamePlay.TileData;
+using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GamePlay.Board
 {
-    public class GenBoard : MonoBehaviour
+    public struct ResetGamePayload
+    {
+    }
+    public struct LevelUpPayload
+    {
+    }
+    public interface IGameSystemCommand
+    {
+        public void OnResetGame(ResetGamePayload resetGamePayload);
+        public void OnLevelUpPayload(LevelUpPayload levelUpPayload);
+    }
+    public class GenBoard : MonoBehaviour, IGameSystemCommand
     {
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         [SerializeField] private List<SingleBlock> _defaultSingleBlocks;
@@ -24,6 +36,14 @@ namespace GamePlay.Board
             _curLevelDesign = _levelDesignConfig.GeConfigByKey(_userDataAsset.CurLevel);
             _activeBlocks = new List<SingleBlock>();
             OnGenBoard();
+
+            Messenger.Default.Subscribe<ResetGamePayload>(OnResetGame);
+            Messenger.Default.Subscribe<LevelUpPayload>(OnLevelUpPayload);
+        }
+        private void OnDestroy()
+        {
+            Messenger.Default.Unsubscribe<ResetGamePayload>(OnResetGame);
+            Messenger.Default.Unsubscribe<LevelUpPayload>(OnLevelUpPayload);
         }
         private void OnGenBoard()
         {
@@ -106,6 +126,19 @@ namespace GamePlay.Board
                 _2dSingleTiles[x * 2 + 1, y * 2 + 1] = _defaultSingleBlocks[i].RightBottomSingleTile;
                 _2dSingleTiles[x * 2 + 1, y * 2 + 1].TileIdx = new[] {x * 2 + 1, y * 2 + 1};
             }
+        }
+        
+        public void OnResetGame(ResetGamePayload resetGamePayload)
+        {
+            _curLevelDesign = _levelDesignConfig.GeConfigByKey(_userDataAsset.CurLevel);
+            _activeBlocks = new List<SingleBlock>();
+            OnGenBoard();
+        }
+        public void OnLevelUpPayload(LevelUpPayload levelUpPayload)
+        {
+            _curLevelDesign = _levelDesignConfig.GeConfigByKey(_userDataAsset.CurLevel);
+            _activeBlocks = new List<SingleBlock>();
+            OnGenBoard();
         }
     }
 }

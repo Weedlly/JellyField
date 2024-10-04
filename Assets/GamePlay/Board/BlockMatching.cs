@@ -1,8 +1,11 @@
+using Common.Scripts.Navigator;
+using GamePlay.GenTileZone;
 using GamePlay.TileData;
 using GamePlay.TileGoal;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GamePlay.Board
 {
@@ -73,7 +76,8 @@ namespace GamePlay.Board
             
             if (IsLosingGame())
             {
-                Debug.Log("Losing");
+                CreateBlockZone.Instance.HideBlocks(true);
+                NavigatorController.MainModalContainer.Push(ResourceKey.Prefabs.LosingModal, false);
             }
         }
         private bool IsLosingGame()

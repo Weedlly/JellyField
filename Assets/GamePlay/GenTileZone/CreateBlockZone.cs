@@ -1,12 +1,13 @@
 using Common.Scripts;
 using Common.Scripts.Utilities;
+using GamePlay.Board;
 using GamePlay.TileData;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GamePlay.GenTileZone
 {
-    public class CreateBlockZone : SingletonBase<CreateBlockZone>
+    public class CreateBlockZone : SingletonBase<CreateBlockZone>, IGameSystemCommand
     {
         [SerializeField] private DragBlock _leftDragBlock;
         [SerializeField] private DragBlock _rightDragBlock;
@@ -17,6 +18,13 @@ namespace GamePlay.GenTileZone
         private List<int> _genRandomTiles;
         private void Start()
         {
+            _leftDragBlock.OnPutOnBoard += OnPutOnBoard;
+            _rightDragBlock.OnPutOnBoard += OnPutOnBoard;
+
+            OnSetup();
+        }
+        public void OnSetup()
+        {
             _genRandomTiles = new List<int>
             {
                 (int)ETileId.Blue,
@@ -25,8 +33,6 @@ namespace GamePlay.GenTileZone
                 (int)ETileId.Purple,
                 (int)ETileId.Red,
             };
-            _leftDragBlock.OnPutOnBoard += OnPutOnBoard;
-            _rightDragBlock.OnPutOnBoard += OnPutOnBoard;
 
             _leftBlock.IsEmpty = true;
             _rightBlock.IsEmpty = true;
@@ -67,6 +73,21 @@ namespace GamePlay.GenTileZone
                     RouletteWheelSelection<int>.Selection(_genRandomTiles, GetWeight));
                 _rightDragBlock.SingleBlock = _rightBlock;
             }
+        }
+        public void HideBlocks(bool isHiding)
+        {
+            _leftBlock.gameObject.SetActive(!isHiding);
+            _rightBlock.gameObject.SetActive(!isHiding);
+        }
+        public void OnResetGame(ResetGamePayload resetGamePayload)
+        {
+            HideBlocks(false);
+            OnSetup();
+        }
+        public void OnLevelUpPayload(LevelUpPayload levelUpPayload)
+        {
+            HideBlocks(false);
+            OnSetup();
         }
     }
 }

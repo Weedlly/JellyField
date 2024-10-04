@@ -1,26 +1,51 @@
 using Common.Scripts;
 using Common.Scripts.Data.DataAsset;
+using Common.Scripts.Navigator;
+using GamePlay.Board;
+using GamePlay.GenTileZone;
 using GamePlay.LevelDesign;
 using GamePlay.TileData;
+using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GamePlay.TileGoal
 {
-    public class GoalManager : SingletonBase<GoalManager>
+    public class GoalManager : SingletonBase<GoalManager>,IGameSystemCommand
     {
         [SerializeField] private List<TileGoalView> _tileGoalViews;
         private List<TileGoalView> _activeGoalView;
         [SerializeField] private LevelDesignDataConfig _levelDesignDataConfig;
         [SerializeField] private TileDataConfig _tileDataConfig;
         [SerializeField] private UserDataAsset _userDataAsset;
+        [SerializeField] private Button _buttonResetLevel;
         public Dictionary<int, int> CurTileGoalDict;
         private List<TileGoalConfig> _tileGoalConfigs;
-
+        private bool _isWin;
         private void Start()
         {
+            _isWin = false;
             SetupView();
+            _buttonResetLevel.onClick.AddListener(OnResetLevel);
+            
+            Messenger.Default.Subscribe<ResetGamePayload>(OnResetGame);
+            Messenger.Default.Subscribe<LevelUpPayload>(OnLevelUpPayload);
         }
+        private void OnResetLevel()
+        {
+            Messenger.Default.Publish(new ResetGamePayload());
+        }
+        private void OnDisable()
+        {
+            Messenger.Default.Subscribe<ResetGamePayload>(OnResetGame);
+            Messenger.Default.Subscribe<LevelUpPayload>(OnLevelUpPayload);
+        }
+        private void ShowLevelUpModal()
+        {
+            NavigatorController.MainModalContainer.Push(ResourceKey.Prefabs.LevelUpModal,false);
+        }
+        
         public void Scoring(int tileVal, int matchCount)
         {
             if (CurTileGoalDict.ContainsKey(tileVal))
@@ -33,8 +58,13 @@ namespace GamePlay.TileGoal
             }
            
             UpdateView();
-            
-            IsWinGoal();
+
+            if (!_isWin && IsWinGoal())
+            {
+                _isWin = true;
+                CreateBlockZone.Instance.HideBlocks(true);
+                ShowLevelUpModal();
+            }
         }
         public bool IsWinGoal()
         {
@@ -74,6 +104,16 @@ namespace GamePlay.TileGoal
                 TileData.TileData tileData = _tileDataConfig.GeConfigByKey(tileGoal.Key);
                 _activeGoalView[viewIdx++].Setup(tileData.Color,tileGoal.Value);
             }
+        }
+        public void OnResetGame(ResetGamePayload resetGamePayload)
+        {
+            _isWin = false;
+            SetupView();
+        }
+        public void OnLevelUpPayload(LevelUpPayload levelUpPayload)
+        {
+            _isWin = false;
+            SetupView();
         }
     }
 }

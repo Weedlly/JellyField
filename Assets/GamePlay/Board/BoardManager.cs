@@ -26,11 +26,7 @@ namespace GamePlay.Board
         }
         public bool IsPutOnBoard()
         {
-            if (PreNearestBlock)
-            {
-                return true;
-            }
-            return false;
+            return PreNearestBlock;
         }
         public void PutOnBoard(SingleBlock singleBlock)
         {
@@ -48,7 +44,7 @@ namespace GamePlay.Board
             singleBlock.RightTopSingleTile.TileIdx = PreNearestBlock.RightTopSingleTile.TileIdx;
             singleBlock.LeftBottmSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
             singleBlock.RightBottomSingleTile.TileIdx = PreNearestBlock.LeftBottmSingleTile.TileIdx;
-            singleBlock.SetBlockId( PreNearestBlock.idx);
+            singleBlock.SetBlockId(PreNearestBlock.idx);
             _blockMatching.RunBfsAlgorithm(singleBlock);
         }
         
@@ -85,6 +81,5 @@ namespace GamePlay.Board
                 nearestBlock.SetHover(true);
             }
         }
-        
     }
 }
